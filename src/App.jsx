@@ -1,8 +1,14 @@
+import { RouterProvider } from 'react-router-dom'
+import { AuthProvider } from './auth/AuthProvider'
+import router from './router'
 import './styles/globals.css'
-import Home from './pages/Home'
 
 function App() {
-  return <Home />
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
 export default App
