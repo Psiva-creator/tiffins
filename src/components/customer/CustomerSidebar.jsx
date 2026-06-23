@@ -19,7 +19,6 @@ const links = [
   { name: 'Place Order', path: '/customer/order', icon: ShoppingCart },
   { name: 'My Orders', path: '/customer/orders', icon: ClipboardList },
   { name: 'Reviews', path: '/customer/reviews', icon: Star },
-  { name: 'Profile', path: '/customer/profile', icon: User },
 ]
 
 const CustomerSidebar = () => {
