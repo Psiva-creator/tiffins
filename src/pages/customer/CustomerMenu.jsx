@@ -7,107 +7,8 @@ import FoodCard from '../../components/customer/FoodCard'
 // MENU DATA — Sri Sai Darshini
 // ═══════════════════════════════════════════════
 
-const menuItems = [
-  // ─── Tiffins ──────────────────
-  { name: 'Idly (2 Pcs)', price: 50, category: 'Tiffins', rating: 4.5, isVeg: true },
-  { name: 'Idly (3 Pcs)', price: 60, category: 'Tiffins', rating: 4.5, isVeg: true },
-  { name: 'Sambar Idly', price: 60, category: 'Tiffins', rating: 4.6, isVeg: true },
-  { name: 'Ghee Idly', price: 75, category: 'Tiffins', rating: 4.7, isVeg: true },
-  { name: 'Wada (2 Pcs)', price: 70, category: 'Tiffins', rating: 4.4, isVeg: true },
-  { name: 'Sambar Wada (2 Pcs)', price: 80, category: 'Tiffins', rating: 4.6, isVeg: true },
-  { name: 'Dahi Wada (2 Pcs)', price: 85, category: 'Tiffins', rating: 4.5, isVeg: true },
-  { name: 'Mysore Bajji', price: 60, category: 'Tiffins', rating: 4.3, isVeg: true },
-  { name: 'Onion Bonda', price: 60, category: 'Tiffins', rating: 4.4, isVeg: true },
-  { name: 'Upma', price: 55, category: 'Tiffins', rating: 4.2, isVeg: true },
-  { name: 'Tomato Bath', price: 60, category: 'Tiffins', rating: 4.3, isVeg: true },
-  { name: 'Poori', price: 70, category: 'Tiffins', rating: 4.5, isVeg: true },
-  { name: 'Chapathi', price: 70, category: 'Tiffins', rating: 4.4, isVeg: true },
-  { name: 'Parota', price: 70, category: 'Tiffins', rating: 4.5, isVeg: true },
-  { name: 'Rice Pongal', price: 80, category: 'Tiffins', rating: 4.6, isVeg: true },
-
-  // ─── Dosas ──────────────────
-  { name: 'Plain Dosa', price: 60, category: 'Dosas', rating: 4.4, isVeg: true },
-  { name: 'Onion Dosa', price: 70, category: 'Dosas', rating: 4.5, isVeg: true },
-  { name: 'Masala Dosa', price: 70, category: 'Dosas', rating: 4.8, isVeg: true },
-  { name: 'Upma Dosa', price: 75, category: 'Dosas', rating: 4.5, isVeg: true },
-  { name: 'Plain Pesarattu', price: 65, category: 'Dosas', rating: 4.3, isVeg: true },
-  { name: 'Onion Pesarattu', price: 75, category: 'Dosas', rating: 4.5, isVeg: true },
-  { name: 'Masala Pesarattu', price: 75, category: 'Dosas', rating: 4.6, isVeg: true },
-  { name: 'Plain Ragi Dosa', price: 60, category: 'Dosas', rating: 4.3, isVeg: true },
-  { name: 'Onion Ragi Dosa', price: 75, category: 'Dosas', rating: 4.4, isVeg: true },
-  { name: 'Masala Ragi Dosa', price: 75, category: 'Dosas', rating: 4.5, isVeg: true },
-  { name: 'Plain Rava Dosa', price: 75, category: 'Dosas', rating: 4.4, isVeg: true },
-  { name: 'Onion Rava Dosa', price: 85, category: 'Dosas', rating: 4.6, isVeg: true },
-  { name: 'Onion Uttappa', price: 80, category: 'Dosas', rating: 4.5, isVeg: true },
-  { name: 'Set Dosa', price: 80, category: 'Dosas', rating: 4.4, isVeg: true },
-
-  // ─── Special Dosas ──────────────────
-  { name: 'Paneer Dosa', price: 95, category: 'Special Dosas', rating: 4.8, isVeg: true },
-  { name: 'Ghee Plain Dosa', price: 80, category: 'Special Dosas', rating: 4.6, isVeg: true },
-  { name: 'Ghee Masala Dosa', price: 95, category: 'Special Dosas', rating: 4.8, isVeg: true },
-  { name: 'Ghee Onion Dosa', price: 95, category: 'Special Dosas', rating: 4.7, isVeg: true },
-  { name: 'Ghee Karam Dosa', price: 95, category: 'Special Dosas', rating: 4.6, isVeg: true },
-  { name: 'Butter Onion Dosa', price: 90, category: 'Special Dosas', rating: 4.7, isVeg: true },
-  { name: 'Butter Masala Dosa', price: 90, category: 'Special Dosas', rating: 4.8, isVeg: true },
-  { name: '70MM Dosa', price: 100, category: 'Special Dosas', rating: 4.9, isVeg: true },
-
-  // ─── Rice Items ──────────────────
-  { name: 'Tomato Rice', price: 80, category: 'Rice Items', rating: 4.4, isVeg: true },
-  { name: 'Gongura Rice', price: 80, category: 'Rice Items', rating: 4.5, isVeg: true },
-  { name: 'Lemon Rice', price: 80, category: 'Rice Items', rating: 4.4, isVeg: true },
-  { name: 'Sambar Rice', price: 80, category: 'Rice Items', rating: 4.3, isVeg: true },
-  { name: 'Curd Rice', price: 80, category: 'Rice Items', rating: 4.5, isVeg: true },
-  { name: 'Veg Biryani', price: 95, category: 'Rice Items', rating: 4.7, isVeg: true },
-  { name: 'Veg Fried Rice', price: 120, category: 'Rice Items', rating: 4.5, isVeg: true },
-  { name: 'Jeera Fried Rice', price: 120, category: 'Rice Items', rating: 4.4, isVeg: true },
-  { name: 'Veg Manchurian Fried Rice', price: 130, category: 'Rice Items', rating: 4.6, isVeg: true },
-  { name: 'Gobi Manchurian Fried Rice', price: 130, category: 'Rice Items', rating: 4.6, isVeg: true },
-  { name: 'Schezwan Fried Rice', price: 130, category: 'Rice Items', rating: 4.5, isVeg: true },
-  { name: 'Paneer Fried Rice', price: 160, category: 'Rice Items', rating: 4.7, isVeg: true },
-  { name: 'Mushroom Fried Rice', price: 160, category: 'Rice Items', rating: 4.6, isVeg: true },
-
-  // ─── Noodles ──────────────────
-  { name: 'Veg Noodles', price: 110, category: 'Noodles', rating: 4.4, isVeg: true },
-  { name: 'Schezwan Noodles', price: 120, category: 'Noodles', rating: 4.5, isVeg: true },
-  { name: 'Veg Manchurian Noodles', price: 120, category: 'Noodles', rating: 4.5, isVeg: true },
-  { name: 'Gobi Manchurian Noodles', price: 120, category: 'Noodles', rating: 4.5, isVeg: true },
-  { name: 'Paneer Noodles', price: 160, category: 'Noodles', rating: 4.6, isVeg: true },
-  { name: 'Mushroom Noodles', price: 150, category: 'Noodles', rating: 4.6, isVeg: true },
-
-  // ─── Starters ──────────────────
-  { name: 'Veg Manchuria', price: 130, category: 'Starters', rating: 4.5, isVeg: true },
-  { name: 'Gobi Manchuria', price: 130, category: 'Starters', rating: 4.7, isVeg: true },
-  { name: 'Mushroom Manchuria', price: 150, category: 'Starters', rating: 4.6, isVeg: true },
-  { name: 'Babycorn Manchuria', price: 150, category: 'Starters', rating: 4.5, isVeg: true },
-  { name: 'Gobi 65', price: 130, category: 'Starters', rating: 4.6, isVeg: true },
-  { name: 'Mushroom 65', price: 150, category: 'Starters', rating: 4.6, isVeg: true },
-  { name: 'Paneer 65', price: 170, category: 'Starters', rating: 4.7, isVeg: true },
-  { name: 'Paneer Chilli', price: 170, category: 'Starters', rating: 4.7, isVeg: true },
-  { name: 'Mushroom Chilli', price: 150, category: 'Starters', rating: 4.5, isVeg: true },
-  { name: 'Crispy Babycorn', price: 140, category: 'Starters', rating: 4.5, isVeg: true },
-
-  // ─── Tea & Beverages ──────────────────
-  { name: 'Single Tea', price: 15, category: 'Tea & Beverages', rating: 4.3, isVeg: true },
-  { name: 'Full Tea', price: 25, category: 'Tea & Beverages', rating: 4.4, isVeg: true },
-  { name: 'Allam Tea', price: 20, category: 'Tea & Beverages', rating: 4.5, isVeg: true },
-  { name: 'Bru Coffee Single', price: 20, category: 'Tea & Beverages', rating: 4.4, isVeg: true },
-  { name: 'Bru Coffee Full', price: 30, category: 'Tea & Beverages', rating: 4.7, isVeg: true },
-  { name: 'Lemon Tea', price: 25, category: 'Tea & Beverages', rating: 4.3, isVeg: true },
-  { name: 'Green Tea', price: 25, category: 'Tea & Beverages', rating: 4.4, isVeg: true },
-  { name: 'Badam Tea', price: 20, category: 'Tea & Beverages', rating: 4.3, isVeg: true },
-  { name: 'Boost', price: 30, category: 'Tea & Beverages', rating: 4.5, isVeg: true },
-  { name: 'Horlicks', price: 30, category: 'Tea & Beverages', rating: 4.4, isVeg: true },
-  { name: 'Milk', price: 25, category: 'Tea & Beverages', rating: 4.3, isVeg: true },
-
-  // ─── Snacks ──────────────────
-  { name: 'Mirchi Bajji', price: 50, category: 'Snacks', rating: 4.5, isVeg: true },
-  { name: 'Punugu', price: 50, category: 'Snacks', rating: 4.4, isVeg: true },
-  { name: 'Masala Vada', price: 50, category: 'Snacks', rating: 4.5, isVeg: true },
-  { name: 'Onion Pakoda', price: 50, category: 'Snacks', rating: 4.4, isVeg: true },
-  { name: 'Aloo Samosa', price: 15, category: 'Snacks', rating: 4.6, isVeg: true },
-  { name: 'Mirchi (2 Pcs)', price: 30, category: 'Snacks', rating: 4.3, isVeg: true },
-  { name: 'Single Punugu', price: 30, category: 'Snacks', rating: 4.3, isVeg: true },
-]
+import { MENU_ITEMS as menuItems } from '../../data'
+import { useOrder } from '../../hooks/useOrder'
 
 const categories = [
   'All',
@@ -218,6 +119,7 @@ const getItemImage = (name, category) => {
 }
 
 const CustomerMenu = () => {
+  const { getCartQty, addToCart, updateQuantity } = useOrder()
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('name')
@@ -497,15 +399,22 @@ const CustomerMenu = () => {
       {/* ─── Menu Grid ──────────────────── */}
       {filteredItems.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-          {filteredItems.map((item, i) => (
-            <FoodCard
-              key={`${item.name}-${item.category}`}
-              {...item}
-              image={getItemImage(item.name, item.category)}
-              index={i}
-              isFeatured={featuredNames.includes(item.name)}
-            />
-          ))}
+          {filteredItems.map((item, i) => {
+            const qty = getCartQty(item.id)
+            return (
+              <FoodCard
+                key={`${item.id}`}
+                {...item}
+                image={getItemImage(item.name, item.category)}
+                index={i}
+                isFeatured={featuredNames.includes(item.name)}
+                quantity={qty}
+                onAdd={() => addToCart(item)}
+                onIncrement={() => updateQuantity(item.id, qty + 1)}
+                onDecrement={() => updateQuantity(item.id, qty - 1)}
+              />
+            )
+          })}
         </div>
       ) : (
         <motion.div

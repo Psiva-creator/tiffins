@@ -3,6 +3,7 @@ import CustomerDashboardWidget from '../../components/customer/CustomerDashboard
 import { BookOpen, ShoppingCart, ClipboardList, Star, ChevronRight, Clock } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useOrder } from '../../hooks/useOrder'
 
 const widgets = [
   { 
@@ -44,8 +45,19 @@ const widgets = [
 ]
 
 const CustomerDashboard = () => {
+  const { cartCount, orders } = useOrder()
   const [greeting, setGreeting] = useState('Welcome Back')
   
+  const activeOrders = orders.filter(o => !['delivered', 'cancelled'].includes(o.status))
+  const latestActiveOrder = activeOrders[0]
+
+  // Update dynamic stats in widgets
+  const dynamicWidgets = widgets.map(w => {
+    if (w.title === 'My Orders') return { ...w, stats: `${activeOrders.length} Active` }
+    if (w.title === 'Place Order') return { ...w, stats: cartCount > 0 ? `${cartCount} in Cart` : 'Fast Delivery' }
+    return w
+  })
+
   useEffect(() => {
     const hour = new Date().getHours()
     if (hour < 12) setGreeting('Good Morning')
@@ -96,7 +108,7 @@ const CustomerDashboard = () => {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-          {widgets.map((widget, i) => (
+          {dynamicWidgets.map((widget, i) => (
             <CustomerDashboardWidget 
               key={widget.title} 
               widget={widget} 
@@ -107,25 +119,27 @@ const CustomerDashboard = () => {
       </div>
       
       {/* Recent Activity Mini-Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="bg-card rounded-3xl border border-border p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow"
-      >
-        <div className="flex items-center gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100">
-            <ClipboardList className="w-8 h-8 text-amber-500" />
+      {latestActiveOrder && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="bg-card rounded-3xl border border-border p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow"
+        >
+          <div className="flex items-center gap-5">
+            <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100">
+              <ClipboardList className="w-8 h-8 text-amber-500" />
+            </div>
+            <div>
+              <h3 className="font-bold text-dark text-lg font-[family-name:var(--font-poppins)]">Ongoing Order</h3>
+              <p className="text-sm text-muted mt-1">Order #{latestActiveOrder.id} is currently <span className="font-semibold text-amber-600 capitalize">{latestActiveOrder.status}</span></p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-bold text-dark text-lg font-[family-name:var(--font-poppins)]">Ongoing Order</h3>
-            <p className="text-sm text-muted mt-1">Order #ORD-7392 is currently <span className="font-semibold text-amber-600">Preparing</span></p>
-          </div>
-        </div>
-        <Link to="/customer/orders" className="w-full md:w-auto px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-dark font-semibold rounded-xl transition-colors text-center text-sm">
-          View Details
-        </Link>
-      </motion.div>
+          <Link to="/customer/orders" className="w-full md:w-auto px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-dark font-semibold rounded-xl transition-colors text-center text-sm">
+            View Details
+          </Link>
+        </motion.div>
+      )}
     </div>
   )
 }

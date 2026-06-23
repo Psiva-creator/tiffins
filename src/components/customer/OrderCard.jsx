@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Clock, MapPin, ChevronRight, CheckCircle2, RotateCcw, XCircle, Utensils } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const getStatusColor = (status) => {
   switch (status) {
@@ -16,6 +17,7 @@ const getStatusColor = (status) => {
 }
 
 const OrderCard = ({ order, index = 0 }) => {
+  const navigate = useNavigate()
   if (!order) return null
 
   const statusStyles = getStatusColor(order.status)
@@ -89,12 +91,12 @@ const OrderCard = ({ order, index = 0 }) => {
         
         <div className="flex gap-2">
           {order.status === 'Delivered' || order.status === 'Cancelled' ? (
-            <button className="flex items-center gap-1.5 px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl text-sm font-semibold transition-colors">
+            <button onClick={() => navigate('/customer/menu')} className="flex items-center gap-1.5 px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl text-sm font-semibold transition-colors">
               <RotateCcw className="w-4 h-4" />
               Reorder
             </button>
           ) : (
-            <button className="flex items-center gap-1.5 px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold shadow-md shadow-primary/20 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+            <button className="flex items-center gap-1.5 px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold shadow-md shadow-primary/20 transition-all opacity-80 cursor-default">
               Track Order
               <ChevronRight className="w-4 h-4" />
             </button>

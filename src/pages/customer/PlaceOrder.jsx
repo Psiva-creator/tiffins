@@ -16,21 +16,9 @@ import {
   Clock,
 } from 'lucide-react'
 
-// ─── Menu Data ──────────────────────────
-const allItems = [
-  { id: 1, name: 'Masala Dosa', price: 80, category: 'Breakfast', rating: 4.8, emoji: '🍳', isVeg: true },
-  { id: 2, name: 'Idli Sambar', price: 50, category: 'Breakfast', rating: 4.6, emoji: '🍳', isVeg: true },
-  { id: 3, name: 'Veg Thali', price: 120, category: 'Lunch', rating: 4.7, emoji: '🍛', isVeg: true },
-  { id: 4, name: 'Veg Biryani', price: 150, category: 'Lunch', rating: 4.6, emoji: '🍛', isVeg: true },
-  { id: 5, name: 'Chicken Biryani', price: 200, category: 'Lunch', rating: 4.8, emoji: '🍛', isVeg: false },
-  { id: 6, name: 'Paneer Butter Masala', price: 180, category: 'Dinner', rating: 4.7, emoji: '🍲', isVeg: true },
-  { id: 7, name: 'Dal Makhani', price: 140, category: 'Dinner', rating: 4.6, emoji: '🍲', isVeg: true },
-  { id: 8, name: 'Filter Coffee', price: 30, category: 'Beverages', rating: 4.9, emoji: '☕', isVeg: true },
-  { id: 9, name: 'Mango Lassi', price: 50, category: 'Beverages', rating: 4.6, emoji: '☕', isVeg: true },
-  { id: 10, name: 'Gulab Jamun', price: 60, category: 'Desserts', rating: 4.8, emoji: '🍰', isVeg: true },
-  { id: 11, name: 'Puri Bhaji', price: 70, category: 'Breakfast', rating: 4.5, emoji: '🍳', isVeg: true },
-  { id: 12, name: 'Roti Basket', price: 80, category: 'Dinner', rating: 4.4, emoji: '🍲', isVeg: true },
-]
+import { MENU_ITEMS as allItems } from '../../data'
+import { useOrder } from '../../hooks/useOrder'
+import { useNavigate } from 'react-router-dom'
 
 const getItemImage = (name, category) => {
   const lowerName = name.toLowerCase()
@@ -92,49 +80,37 @@ const getItemImage = (name, category) => {
 }
 
 const PlaceOrder = () => {
-  const [cart, setCart] = useState([
-    { ...allItems[0], quantity: 2 },
-    { ...allItems[7], quantity: 1 },
-  ])
+  const { cart, addToCart, updateQuantity, removeFromCart, placeOrder, cartTotal, cartCount, clearCart } = useOrder()
+  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const addToCart = (item) => {
-    setCart((prev) => {
-      const existing = prev.find((c) => c.id === item.id)
-      if (existing) {
-        return prev.map((c) => (c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c))
-      }
-      return [...prev, { ...item, quantity: 1 }]
-    })
-  }
-
-  const updateQuantity = (id, delta) => {
-    setCart((prev) =>
-      prev
-        .map((c) => (c.id === id ? { ...c, quantity: c.quantity + delta } : c))
-        .filter((c) => c.quantity > 0)
-    )
-  }
-
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((c) => c.id !== id))
-  }
-
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const deliveryFee = subtotal > 300 ? 0 : 30
-  const gst = Math.round(subtotal * 0.05)
-  const total = subtotal + deliveryFee + gst
-
-  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
+  const deliveryFee = cartTotal > 300 ? 0 : 30
+  const gst = Math.round(cartTotal * 0.05)
+  const total = cartTotal + deliveryFee + gst
 
   const filteredItems = allItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   const handlePlaceOrder = () => {
+    if (cart.length === 0) return
+    const orderData = {
+      items: cart,
+      subtotal: cartTotal,
+      gst,
+      deliveryFee,
+      total,
+      customerName: 'Siva',
+      customerId: 'cust_1',
+    }
+    placeOrder(orderData)
     setShowSuccess(true)
-    setTimeout(() => setShowSuccess(false), 3000)
+    setTimeout(() => {
+      setShowSuccess(false)
+      clearCart()
+      navigate('/customer/orders')
+    }, 2000)
   }
 
   return (
@@ -301,19 +277,19 @@ const PlaceOrder = () => {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
                         <p className="text-xs font-bold mt-0.5" style={{ color: '#8B0000' }}>
-                          ₹{item.price} × {item.quantity} = ₹{item.price * item.quantity}
+                          ₹{item.price} × {item.qty} = ₹{item.price * item.qty}
                         </p>
                       </div>
                       <div className="flex items-center gap-1">
                         <button
-                          onClick={() => updateQuantity(item.id, -1)}
+                          onClick={() => updateQuantity(item.id, item.qty - 1)}
                           className="p-1 rounded-md hover:bg-gray-200 transition-colors"
                         >
                           <Minus className="w-3 h-3 text-gray-500" />
                         </button>
-                        <span className="text-xs font-bold min-w-[16px] text-center">{item.quantity}</span>
+                        <span className="text-xs font-bold min-w-[16px] text-center">{item.qty}</span>
                         <button
-                          onClick={() => updateQuantity(item.id, 1)}
+                          onClick={() => updateQuantity(item.id, item.qty + 1)}
                           className="p-1 rounded-md hover:bg-gray-200 transition-colors"
                         >
                           <Plus className="w-3 h-3 text-gray-500" />
@@ -349,7 +325,7 @@ const PlaceOrder = () => {
                 <div className="px-4 py-4 border-t border-gray-100 space-y-2">
                   <div className="flex justify-between text-sm text-gray-500">
                     <span>Subtotal</span>
-                    <span className="font-medium text-gray-700">₹{subtotal}</span>
+                    <span className="font-medium text-gray-700">₹{cartTotal}</span>
                   </div>
                   <div className="flex justify-between text-sm text-gray-500">
                     <span>GST (5%)</span>

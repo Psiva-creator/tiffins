@@ -3,61 +3,29 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, ShoppingBag } from 'lucide-react'
 import OrderCard from '../../components/customer/OrderCard'
 
-const MOCK_ORDERS = [
-  {
-    id: 'ORD-7392',
-    date: '2026-06-23T19:10:00Z',
-    status: 'Preparing', 
-    total: 210,
-    items: [
-      { name: 'Masala Dosa', quantity: 2 },
-      { name: 'Filter Coffee', quantity: 1 }
-    ],
-    restaurant: 'Tiffins Yash - Kukatpally'
-  },
-  {
-    id: 'ORD-7390',
-    date: '2026-06-21T09:15:00Z',
-    status: 'Delivered',
-    total: 150,
-    items: [
-      { name: 'Idli Sambar', quantity: 3 }
-    ],
-    restaurant: 'Tiffins Yash - Kukatpally'
-  },
-  {
-    id: 'ORD-7201',
-    date: '2026-06-18T19:45:00Z',
-    status: 'Delivered',
-    total: 350,
-    items: [
-      { name: 'Chicken Biryani', quantity: 1 },
-      { name: 'Paneer Butter Masala', quantity: 1 }
-    ],
-    restaurant: 'Tiffins Yash - Kukatpally'
-  },
-  {
-    id: 'ORD-7105',
-    date: '2026-06-15T08:30:00Z',
-    status: 'Cancelled',
-    total: 120,
-    items: [
-      { name: 'Veg Thali', quantity: 1 }
-    ],
-    restaurant: 'Tiffins Yash - Kukatpally'
-  }
-]
+import { useOrder } from '../../hooks/useOrder'
 
 const OrderHistory = () => {
+  const { orders } = useOrder()
   const [activeTab, setActiveTab] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 
-  const filteredOrders = MOCK_ORDERS.filter(order => {
+  // Map orders from context to match UI expectations
+  const mappedOrders = orders.map(order => ({
+    id: order.id,
+    date: order.createdAt,
+    status: order.status.charAt(0).toUpperCase() + order.status.slice(1),
+    total: order.total,
+    items: order.items.map(item => ({ ...item, quantity: item.qty })),
+    restaurant: 'Sri Sai Darshini - Main Branch',
+  }))
+
+  const filteredOrders = mappedOrders.filter(order => {
     const matchesSearch = order.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           order.items.some(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
     
     if (activeTab === 'All') return matchesSearch
-    if (activeTab === 'Active') return matchesSearch && ['Preparing', 'On the way'].includes(order.status)
+    if (activeTab === 'Active') return matchesSearch && ['Pending', 'Preparing', 'Ready', 'On the way'].includes(order.status)
     if (activeTab === 'Past') return matchesSearch && ['Delivered', 'Cancelled'].includes(order.status)
     return matchesSearch
   })

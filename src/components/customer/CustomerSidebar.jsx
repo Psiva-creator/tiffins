@@ -11,7 +11,9 @@ import {
   UtensilsCrossed,
   X,
   Menu,
+  LogOut,
 } from 'lucide-react'
+import { useAuth } from '../../hooks/useAuth'
 
 const links = [
   { name: 'Dashboard', path: '/customer', icon: LayoutDashboard },
@@ -24,6 +26,7 @@ const links = [
 const CustomerSidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const { logout } = useAuth()
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
@@ -66,8 +69,15 @@ const CustomerSidebar = () => {
       </nav>
 
       {/* Footer */}
-      <div className="px-6 py-4 border-t border-white/10">
-        <p className="text-[10px] text-gray-500">v1.0.0 — Skeleton</p>
+      <div className="px-6 py-4 border-t border-white/10 space-y-3">
+        <button 
+          onClick={logout}
+          className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors w-full"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Log Out</span>
+        </button>
+        <p className="text-[10px] text-gray-500">v1.0.0 — Sri Sai Darshini</p>
       </div>
     </div>
   )

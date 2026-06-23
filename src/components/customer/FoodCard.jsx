@@ -11,18 +11,14 @@ const FoodCard = ({
   isFeatured = false,
   image = '',
   index = 0,
-  onAddToCart,
+  quantity = 0,
+  onAdd,
+  onIncrement,
+  onDecrement,
 }) => {
-  const [quantity, setQuantity] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
-  const handleAdd = () => {
-    setQuantity(1)
-    onAddToCart?.({ name, price, quantity: 1 })
-  }
 
-  const handleIncrement = () => setQuantity((q) => q + 1)
-  const handleDecrement = () => setQuantity((q) => (q <= 1 ? 0 : q - 1))
 
   // Category-based emoji & gradient
   const categoryStyles = {
@@ -149,7 +145,7 @@ const FoodCard = ({
           {quantity === 0 ? (
             <motion.button
               whileTap={{ scale: 0.93 }}
-              onClick={handleAdd}
+              onClick={onAdd}
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold transition-all duration-300 hover:shadow-lg active:scale-95"
               style={{
                 background: 'linear-gradient(135deg, #8B0000 0%, #B22222 100%)',
@@ -164,14 +160,14 @@ const FoodCard = ({
               className="flex items-center gap-0 rounded-xl overflow-hidden"
               style={{ border: '2px solid #8B0000' }}
             >
-              <button onClick={handleDecrement} className="p-1.5 hover:bg-red-50 transition-colors">
+              <button onClick={onDecrement} className="p-1.5 hover:bg-red-50 transition-colors">
                 <Minus className="w-3.5 h-3.5" style={{ color: '#8B0000' }} />
               </button>
               <span className="px-2.5 text-xs font-bold text-gray-900 min-w-[24px] text-center">
                 {quantity}
               </span>
               <button
-                onClick={handleIncrement}
+                onClick={onIncrement}
                 className="p-1.5 text-white transition-colors"
                 style={{ backgroundColor: '#8B0000' }}
               >

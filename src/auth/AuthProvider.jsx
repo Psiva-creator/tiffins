@@ -18,7 +18,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    // Placeholder logout
+    setIsAuthenticated(false);
+    setUser(null);
+    setRole(null);
   };
 
   const refreshUser = async () => {
