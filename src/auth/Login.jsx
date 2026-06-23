@@ -49,6 +49,13 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Log In'}
           </button>
         </form>
+
+        <div className="mt-6 text-center text-sm text-gray-500">
+          <p>Need help logging in?</p>
+          <p className="mt-1 font-medium text-dark">
+            <span className="text-primary font-bold">Call us:</span> +91 91607 73883
+          </p>
+        </div>
       </motion.div>
     </div>
   );

@@ -24,7 +24,6 @@ import CustomerMenu from './pages/customer/CustomerMenu'
 import PlaceOrder from './pages/customer/PlaceOrder'
 import OrderHistory from './pages/customer/OrderHistory'
 import Ratings from './pages/customer/Ratings'
-import CustomerProfile from './pages/customer/CustomerProfile'
 
 // Chef Pages
 import ChefDashboard from './pages/chef/ChefDashboard'
@@ -78,7 +77,6 @@ const router = createBrowserRouter([
       { path: 'order', element: <PlaceOrder /> },
       { path: 'orders', element: <OrderHistory /> },
       { path: 'reviews', element: <Ratings /> },
-      { path: 'profile', element: <CustomerProfile /> },
     ],
   },
 
