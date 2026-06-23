@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import DashboardWidget from '../../components/shared/DashboardWidget'
+import CustomerDashboardWidget from '../../components/customer/CustomerDashboardWidget'
 import { BookOpen, ShoppingCart, ClipboardList, Star, ChevronRight, Clock } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -97,7 +97,7 @@ const CustomerDashboard = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {widgets.map((widget, i) => (
-            <DashboardWidget 
+            <CustomerDashboardWidget 
               key={widget.title} 
               widget={widget} 
               index={i} 
